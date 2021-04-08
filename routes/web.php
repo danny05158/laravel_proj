@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+Route::post('/dashboard', [App\Http\Controllers\DashboardController::class, 'get_website'])->name('get_website');
 
+Route::post('/pdf', [App\Http\Controllers\GetPdf::class, 'index'])->name('pdf');
+
+Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
