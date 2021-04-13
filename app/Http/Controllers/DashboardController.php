@@ -9,7 +9,11 @@ use PolygonIO\rest\Rest;
 
 class DashboardController extends Controller
 {
-    //
+
+    public function __construct (){
+        $this->rest = new Rest('0vuALpjDqJ_XmYXC8mU_pw92V9D879OZ');
+        $this->params = ['perpage' => 15, 'page' => 1];
+    }
 
     public function index(){
          return view('dashboard');
@@ -17,17 +21,12 @@ class DashboardController extends Controller
 
     public function get_website(Request $request){
 
-        $rest = new Rest('0vuALpjDqJ_XmYXC8mU_pw92V9D879OZ');
         $data = [];
         $response = [];
 
         $ticker_simbol = $request->input('website');
-        $parms = [
-            'perpage' => 15,
-            'page' => 1
-        ];
 
-        $res = $rest->reference->tickerNews->get($ticker_simbol, $parms);
+        $res = $this->rest->reference->tickerNews->get($ticker_simbol, $this->params);
 
         if(empty($res)){
             return redirect('dashboard');
