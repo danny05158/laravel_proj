@@ -34,8 +34,9 @@ class DashboardController extends Controller
         $this->ticker_simbol = $request->input('website');
         $res = $this->rest->reference->tickerNews->get($this->ticker_simbol, $this->params);
 
+        //if ticker is not right redirect home
         if(empty($res)){
-            return redirect('dashboard');
+            return redirect('/');
         }
 
         foreach($res as $news_data){
