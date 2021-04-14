@@ -11,8 +11,13 @@ class DashboardController extends Controller
 {
 
     public function __construct (){
+        $this->rest = null;
+        $this->ticker_simbol = null;
+        $this->params = ['perpage' => 5, 'page' => 1];
+    }
+
+    public function load_api_key(){
         $this->rest = new Rest('0vuALpjDqJ_XmYXC8mU_pw92V9D879OZ');
-        $this->params = ['perpage' => 15, 'page' => 1];
     }
 
     public function index(){
@@ -23,10 +28,11 @@ class DashboardController extends Controller
 
         $data = [];
         $response = [];
+        $this->load_api_key();
 
-        $ticker_simbol = $request->input('website');
-
-        $res = $this->rest->reference->tickerNews->get($ticker_simbol, $this->params);
+        //get form input
+        $this->ticker_simbol = $request->input('website');
+        $res = $this->rest->reference->tickerNews->get($this->ticker_simbol, $this->params);
 
         if(empty($res)){
             return redirect('dashboard');
@@ -45,12 +51,7 @@ class DashboardController extends Controller
             $data[$timestamp] = $obj;
         }
 
-        // $response['news'][] = $data;
-
-        // $res = $rest->forex->realTimeCurrencyConversion->get($us, $eu, $ten);
-        // $response['request'] = $request->input('website');
-
-        $response['ticker_simbol'] = $ticker_simbol;
+        $response['ticker_simbol'] = $this->ticker_simbol;
         $response['news'] = $data;
         return view('news', $response);
 
