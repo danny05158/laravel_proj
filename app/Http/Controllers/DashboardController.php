@@ -14,6 +14,7 @@ class DashboardController extends Controller
         $this->rest = null;
         $this->ticker_simbol = null;
         $this->params = ['perpage' => 5, 'page' => 1];
+        $this->response = [];
     }
 
     public function load_api_key(){
@@ -27,12 +28,19 @@ class DashboardController extends Controller
     public function get_website(Request $request){
 
         $data = [];
-        $response = [];
         $this->load_api_key();
 
         //get form input
         $this->ticker_simbol = $request->input('website');
-        $res = $this->rest->reference->tickerNews->get($this->ticker_simbol, $this->params);
+
+        try {
+            $res = $this->rest->reference->tickerNews->get($this->ticker_simbol, $this->params);
+
+        } catch (\Throwable $th) {
+            echo 'error';
+        }
+        $this->get_open_close();
+
 
         //if ticker is not right redirect home
         if(empty($res)){
@@ -52,10 +60,29 @@ class DashboardController extends Controller
             $data[$timestamp] = $obj;
         }
 
-        $response['ticker_simbol'] = $this->ticker_simbol;
-        $response['news'] = $data;
-        return view('news', $response);
+        $this->response['ticker_simbol'] = $this->ticker_simbol;
+        $this->response['news'] = $data;
+        return view('news', $this->response);
 
+    }
+
+    public function get_open_close(){
+
+        $open_close = [];
+        $ticker = trim(strtoupper($this->ticker_simbol));
+        $tdate = date("Y-m-d", strtotime("-2 day"));
+
+        try {
+            $open_close = $this->rest->stocks->dailyOpenClose->get($ticker, $tdate);
+        } catch (\Throwable $th) {
+            echo 'error';
+        }
+
+        $obj = new \stdClass;
+        $obj->open = $open_close['open'];
+        $obj->close = $open_close['close'];
+
+        $this->response['daily_open_close'] = $obj;
     }
 
 }

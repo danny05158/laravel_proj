@@ -4,8 +4,10 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-          <p>Today's News for {{$ticker_simbol}}</p>
-
+          <div class="row">
+            <p>Today's News for {{$ticker_simbol}}</p>
+            <p style="padding-left: 420px;"> Open: {{$daily_open_close->open}}  Close: {{$daily_open_close->close}}</p>
+          </div>
             @foreach($news as $news_data)
              <div class="card">
                  <div class="card-header">
