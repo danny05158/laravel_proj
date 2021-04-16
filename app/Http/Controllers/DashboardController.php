@@ -31,7 +31,7 @@ class DashboardController extends Controller
         $this->load_api_key();
 
         //get form input
-        $this->ticker_simbol = $request->input('website');
+        $this->ticker_simbol = trim($request->input('website'));
 
         try {
             $res = $this->rest->reference->tickerNews->get($this->ticker_simbol, $this->params);
@@ -74,6 +74,7 @@ class DashboardController extends Controller
 
         try {
             $open_close = $this->rest->stocks->dailyOpenClose->get($ticker, $tdate);
+
         } catch (\Throwable $th) {
             echo 'error';
         }
