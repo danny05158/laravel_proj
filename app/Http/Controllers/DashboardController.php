@@ -71,9 +71,8 @@ class DashboardController extends Controller
             echo 'error' . $th;
         }
 
-        $obj = new \stdClass;
-        $obj->open = $open_close['open'];
-        $obj->close = $open_close['close'];
+        $res = new Res_Cleanup($open_close, ['open', 'close']);
+        $obj = $res->sing_cleanup();
 
         $this->response['daily_open_close'] = $obj;
     }

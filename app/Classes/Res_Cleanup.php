@@ -32,5 +32,17 @@ class Res_Cleanup {
         return $this->data;
     }
 
+    public function sing_cleanup() {
+
+      list($param_one, $param_two) = $this->params;
+      $obj = new \stdClass;
+
+      $obj->$param_one = $this->response[$param_one];
+      $obj->$param_two = $this->response[$param_two];
+      $this->data = $obj;
+
+      return $this->data;
+    }
+
 
 }
