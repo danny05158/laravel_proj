@@ -28,7 +28,6 @@ class DashboardController extends Controller
 
     public function get_website(Request $request){
 
-        $data = [];
         $this->load_api_key();
 
         //get form input
@@ -48,7 +47,6 @@ class DashboardController extends Controller
             return redirect('/');
         }
 
-
         $res = new Res_Cleanup($res, ['title', 'url', 'summary', 'image']);
         $data = $res->cleanup_res();
 
@@ -60,7 +58,6 @@ class DashboardController extends Controller
 
     public function get_open_close(){
 
-        $open_close = [];
         $ticker = trim(strtoupper($this->ticker_simbol));
         $tdate = date("Y-m-d", strtotime("-2 day"));
 
