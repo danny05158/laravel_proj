@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 use PolygonIO\rest\Rest;
+use App\Classes\Res_Cleanup;
 
 class DashboardController extends Controller
 {
@@ -37,7 +38,7 @@ class DashboardController extends Controller
             $res = $this->rest->reference->tickerNews->get($this->ticker_simbol, $this->params);
 
         } catch (\Throwable $th) {
-            echo 'error';
+            echo 'error' . $th;
         }
         $this->get_open_close();
 
@@ -47,18 +48,9 @@ class DashboardController extends Controller
             return redirect('/');
         }
 
-        foreach($res as $news_data){
 
-            $obj = new \stdClass;
-
-            $obj->title = $news_data['title'];
-            $obj->url = $news_data['url'];
-            $obj->summary = $news_data['summary'];
-            $obj->image = $news_data['image'];
-
-            $timestamp = $news_data['timestamp'];
-            $data[$timestamp] = $obj;
-        }
+        $res = new Res_Cleanup($res, ['title', 'url', 'summary', 'image']);
+        $data = $res->cleanup_res();
 
         $this->response['ticker_simbol'] = $this->ticker_simbol;
         $this->response['news'] = $data;
@@ -76,7 +68,7 @@ class DashboardController extends Controller
             $open_close = $this->rest->stocks->dailyOpenClose->get($ticker, $tdate);
 
         } catch (\Throwable $th) {
-            echo 'error';
+            echo 'error' . $th;
         }
 
         $obj = new \stdClass;
