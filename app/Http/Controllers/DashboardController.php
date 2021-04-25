@@ -18,6 +18,7 @@ class DashboardController extends Controller
         $this->response = [];
     }
 
+    
     public function load_api_key(){
         $this->rest = new Rest('0vuALpjDqJ_XmYXC8mU_pw92V9D879OZ');
     }
