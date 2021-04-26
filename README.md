@@ -3,7 +3,7 @@
 This project displays current uptodate news on a stock ticker from calling Polygon.io with stock simbol.
 
 - [PHP laravel ](https://laravel.com/docs/8.x)
-- [Polygon.io ](https://https://polygon.io/)
+- [Polygon.io ](https://polygon.io/)
 - [Docker](https://www.docker.com/)
 
 ## Use Case
