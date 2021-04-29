@@ -18,7 +18,7 @@ class DashboardController extends Controller
         $this->response = [];
     }
 
-    
+
     public function load_api_key(){
         $this->rest = new Rest('0vuALpjDqJ_XmYXC8mU_pw92V9D879OZ');
     }
@@ -38,15 +38,16 @@ class DashboardController extends Controller
             $res = $this->rest->reference->tickerNews->get($this->ticker_simbol, $this->params);
 
         } catch (\Throwable $th) {
-            echo 'error' . $th;
+            echo 'error';
         }
-        $this->get_open_close();
 
-
-        //if ticker is not right redirect home
-        if(empty($res)){
+        //if ticker simbol is not correct redirect home
+        if(empty($res) || !is_array($res)){
             return redirect('/');
         }
+
+        //else get open and close prices
+        $this->get_open_close();
 
         $res = new Res_Cleanup($res, ['title', 'url', 'summary', 'image']);
         $data = $res->cleanup_res();
