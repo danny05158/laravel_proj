@@ -11,23 +11,22 @@ class Res_Cleanup {
       $this->data = [];
     }
 
-    public function cleanup_res() : Array  {
+    public function cleanup_res() {
 
       list($param_one, $param_two, $param_three, $param_four) = $this->params;
-
 
         foreach($this->response as $res){
 
           $obj = new \stdClass;
 
-          $obj->$param_one = $res[$param_one];
-          $obj->$param_two = $res[$param_two];
-          $obj->$param_three = $res[$param_three];
-          $obj->$param_four = $res[$param_four];
+           $obj->$param_one = $res[$param_one];
+           $obj->$param_two = $res[$param_two];
+           $obj->$param_three = $res[$param_three];
+           $obj->$param_four = $res[$param_four] ?? null;
 
-          $timestamp = $res['timestamp'];
-          $this->data[$timestamp] = $obj;
-        }
+           $id = $res['id'];
+           $this->data[$id] = $obj;
+          }
 
         return $this->data;
     }

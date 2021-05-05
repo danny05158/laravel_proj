@@ -11,17 +11,17 @@
             @foreach($news as $news_data)
              <div class="card">
                  <div class="card-header">
-                    <a  href="{{ $news_data->url }}"  target="_blank">
+                    <a  href="{{ $news_data->article_url }}"  target="_blank">
                     {{ $news_data->title}}
                     </a>
                    </div>
                  <div class="card-body">
                     <div class="row">
                         <div class="col-6">
-                          <img src="{{ $news_data->image}}" style="width:100%"/>
+                          <img src="{{ $news_data->image_url }}" style="width:100%"/>
                         </div>
                         <div class="col-6">
-                          <p>{{ $news_data->summary }}</p>
+                          <p>{{ $news_data->description }}</p>
                         </div>
                     </div>
                  </div>

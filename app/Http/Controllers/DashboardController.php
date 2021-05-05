@@ -8,6 +8,8 @@ require __DIR__ . '/../../../vendor/autoload.php';
 use PolygonIO\rest\Rest;
 use App\Classes\Res_Cleanup;
 
+use App\Classes\TickerNewsV2;
+
 class DashboardController extends Controller
 {
 
@@ -27,53 +29,46 @@ class DashboardController extends Controller
          return view('dashboard');
     }
 
-    public function get_website(Request $request){
-
-        $this->load_api_key();
-
-        //get form input
-        $this->ticker_simbol = trim($request->input('website'));
-
-        try {
-            $res = $this->rest->reference->tickerNews->get($this->ticker_simbol, $this->params);
-
-        } catch (\Throwable $th) {
-            echo 'error';
-        }
-
-        //if ticker simbol is not correct redirect home
-        if(empty($res) || !is_array($res)){
-            return redirect('/');
-        }
-
-        //else get open and close prices
-        $this->get_open_close();
-
-        $res = new Res_Cleanup($res, ['title', 'url', 'summary', 'image']);
-        $data = $res->cleanup_res();
-
-        $this->response['ticker_simbol'] = $this->ticker_simbol;
-        $this->response['news'] = $data;
-        return view('news', $this->response);
-
-    }
-
     public function get_open_close(){
 
+        $this->rest = new Rest('0vuALpjDqJ_XmYXC8mU_pw92V9D879OZ');
+
         $ticker = trim(strtoupper($this->ticker_simbol));
-        $tdate = date("Y-m-d", strtotime("-2 day"));
+        $tdate = date("Y-m-d", strtotime("-1 day"));
 
         try {
             $open_close = $this->rest->stocks->dailyOpenClose->get($ticker, $tdate);
 
         } catch (\Throwable $th) {
-            echo 'error' . $th;
+           echo $th->getMessage() . PHP_EOL;
+           return redirect('/');
         }
 
         $res = new Res_Cleanup($open_close, ['open', 'close']);
         $obj = $res->sing_cleanup();
 
         $this->response['daily_open_close'] = $obj;
+    }
+
+
+    public function main(Request $request){
+
+        $this->ticker_simbol = strtoupper(trim($request->input('website')));
+        $this->get_open_close();
+
+
+        $tdate = date("Y-m-d");
+        $res = new TickerNewsV2(['ticker' => $this->ticker_simbol, 'tdate' => $tdate]);
+        $res->buildQuery();
+        $arr = $res->getNews();
+
+        $res = new Res_Cleanup($arr, ['title', 'article_url', 'description', 'image_url']);
+        $data = $res->cleanup_res();
+
+        $this->response['news'] = $data;
+        $this->response['ticker_simbol'] = $this->ticker_simbol;
+
+        return view('news', $this->response);
     }
 
 }
