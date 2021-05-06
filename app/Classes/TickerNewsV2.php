@@ -9,7 +9,11 @@ class TickerNewsV2 {
 
     public function __construct($params = []) {
       $this->ticker = $params['ticker'];
-      $this->tdate = $params['tdate'];
+      $this->tdate = date("Y-m-d");
+    }
+
+    protected function _getApi(){
+      return ['apiUrl' => $this->API_URL, 'api_key' => $this->api_key];
     }
 
     public function buildQuery(){
@@ -24,7 +28,7 @@ class TickerNewsV2 {
       ];
 
       $this->route = $this->API_URL . '/v2/reference/news?' . http_build_query($params);
-      echo $this->route . PHP_EOL;
+      // echo $this->route . PHP_EOL;
     }
 
     public function getNews(){
@@ -39,7 +43,7 @@ class TickerNewsV2 {
         $contents = $res->getBody()->getContents();
 
       } catch (\Throwable $th) {
-        echo 'could not retrieve news ' . PHP_EOL ;
+        echo 'could not retrieve news ' . $th->getMessage() . PHP_EOL;
       }
       $cont = json_decode($contents, true);
       return $cont['results'];
