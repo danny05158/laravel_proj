@@ -1,6 +1,6 @@
 ## Laravel Polygon.io
 
-This project displays current uptodate news on a stock ticker from calling Polygon.io with stock simbol.
+This project displays current daily news, company details and open/close price on a stock ticker from calling Polygon.io with ticker.
 
 - [PHP laravel ](https://laravel.com/docs/8.x)
 - [Polygon.io ](https://polygon.io/)

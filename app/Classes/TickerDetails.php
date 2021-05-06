@@ -16,7 +16,6 @@ class TickerDetails extends TickerNewsV2 {
 
   public function buildParams(){
     $this->route =  $this->apiUrl . '/v1/meta/symbols/' . $this->tickr . '/company?&apiKey=' . $this->apikey;
-    // echo $this->route . PHP_EOL;
   }
 
   public function getDetails(){
@@ -33,7 +32,6 @@ class TickerDetails extends TickerNewsV2 {
       }
 
       $cont = json_decode($contents, true);
-      // print_r($cont);
-      // return $cont['results'];
+      return $cont;
   }
 }

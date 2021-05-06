@@ -57,17 +57,27 @@ class DashboardController extends Controller
         $data = $res->cleanup_res();
 
         $this->details();
-
         $this->response['news'] = $data;
-        $this->response['ticker_simbol'] = $this->ticker_simbol;
 
         return view('news', $this->response);
     }
 
     public function details(){
-        $det = new TickerDetails($this->ticker_simbol);
-        $det->buildParams();
-        $det->getDetails();
+        $details = new TickerDetails($this->ticker_simbol);
+        $details->buildParams();
+        $det = $details->getDetails();
+
+        $this->response['ticker_simbol'] = $det['symbol'];
+        $this->response['ticker_ceo'] = $det['ceo'];
+        $this->response['ticker_industry'] = $det['industry'];
+        $this->response['list_date'] = $det['listdate'];
+        $this->response['ticker_exchange'] = $det['exchange'];
+        $this->response['ticker_name'] = $det['name'];
+        $this->response['ticker_mkcap'] = $det['marketcap'];
+        $this->response['ticker_employees'] = $det['employees'];
+        $this->response['ticker_country'] = $det['hq_country'];
+        $this->response['ticker_state'] = $det['hq_state'];
+        $this->response['ticker_url'] = $det['url'];
     }
 
 }
