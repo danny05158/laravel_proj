@@ -28,18 +28,16 @@ class TickerNewsV2 {
       ];
 
       $this->route = $this->API_URL . '/v2/reference/news?' . http_build_query($params);
-      // echo $this->route . PHP_EOL;
     }
 
     public function getNews(){
 
-      $this->client = new \GuzzleHttp\Client();
+      $client = new \GuzzleHttp\Client();
+      // echo 'route ' . $this->route . PHP_EOL;
 
       try {
 
-        $res = $this->client->request('GET', $this->route);
-        $res->getStatusCode();
-        $res->getHeaderLine('content-type');
+        $res = $client->request('GET', $this->route);
         $contents = $res->getBody()->getContents();
 
       } catch (\Throwable $th) {

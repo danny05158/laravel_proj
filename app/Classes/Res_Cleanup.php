@@ -4,10 +4,10 @@ namespace App\Classes;
 
 class Res_Cleanup {
 
-    public function __construct($res, $params = []) {
+    public function __construct($res) {
 
       $this->response = $res;
-      $this->params = $params;
+      $this->params = ['title', 'article_url', 'description', 'image_url', 'author'];
       $this->data = [];
     }
 

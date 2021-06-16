@@ -53,7 +53,7 @@ class DashboardController extends Controller
         $res->buildQuery();
         $arr = $res->getNews();
 
-        $res = new Res_Cleanup($arr, ['title', 'article_url', 'description', 'image_url', 'author']);
+        $res = new Res_Cleanup($arr);
         $data = $res->cleanup_res();
 
         $this->details();
