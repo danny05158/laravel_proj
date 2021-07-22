@@ -16,14 +16,14 @@ class Res_Cleanup {
       list($param_one, $param_two, $param_three, $param_four, $param_five) = $this->params;
 
         foreach($this->response as $res){
-
+          
           $obj = new \stdClass;
 
-           $obj->$param_one = $res[$param_one];
-           $obj->$param_two = $res[$param_two];
-           $obj->$param_three = $res[$param_three];
-           $obj->$param_four = $res[$param_four] ?? null;
-           $obj->$param_five = $res[$param_five];
+          $obj->$param_one = $this->checkParam($param_one, $res);
+          $obj->$param_two = $this->checkParam($param_two, $res);
+          $obj->$param_three = $this->checkParam($param_three, $res);
+          $obj->$param_four = $this->checkParam($param_four, $res);
+          $obj->$param_five = $this->checkParam($param_five, $res);
 
            $id = $res['id'];
            $this->data[$id] = $obj;
@@ -32,17 +32,9 @@ class Res_Cleanup {
         return $this->data;
     }
 
-    public function sing_cleanup() {
+    public function checkParam($param, $data){
 
-      list($param_one, $param_two) = $this->params;
-      $obj = new \stdClass;
-
-      $obj->$param_one = $this->response[$param_one];
-      $obj->$param_two = $this->response[$param_two];
-      $this->data = $obj;
-
-      return $this->data;
+      return isset($data[$param]) === true && !empty($data[$param]) === true ? $data[$param] : '';
     }
-
 
 }
