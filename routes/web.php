@@ -20,7 +20,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 Route::post('/dashboard', [App\Http\Controllers\DashboardController::class, 'main'])->name('main');
 
-// Route::get('/main', [App\Http\Controllers\DashboardController::class, 'main'])->name('main');
-
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
