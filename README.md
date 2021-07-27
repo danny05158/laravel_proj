@@ -14,3 +14,12 @@ Assuming you have composer installed locally. Clone this repository and composer
 
 You can also use Docker to serve the project locally. Install Docker on your machine following their
 [documentiation](https://docs.docker.com/get-docker/) and on the project root run docker-compose up.
+
+
+[] Read MOST documentation on Laravel
+    - Architecture Concepts
+    - The Basics
+    - ..
+[] Two algo PHP problems and do them in JS
+[] Website add notes sec
+[] put laravel project on heroku
