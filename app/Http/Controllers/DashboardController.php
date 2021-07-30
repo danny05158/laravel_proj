@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 require __DIR__ . '/../../../vendor/autoload.php';
-use PolygonIO\rest\Rest;
 use App\Classes\Res_Cleanup;
 use App\Classes\TickerNewsV2;
 use App\Classes\TickerDetails;
+use App\Classes\OpenClose;
 
 class DashboardController extends Controller
 {
@@ -23,28 +23,6 @@ class DashboardController extends Controller
          return view('dashboard');
     }
 
-    public function get_open_close(){
-
-        $this->rest = new Rest('0vuALpjDqJ_XmYXC8mU_pw92V9D879OZ');
-
-        $ticker = trim(strtoupper($this->ticker_simbol));
-        $tdate = date("Y-m-d");
-
-        try {
-            $open_close = $this->rest->stocks->dailyOpenClose->get($ticker, $tdate);
-
-        } catch (\Throwable $th) {
-           echo $th->getMessage() . PHP_EOL;
-           return redirect('/');
-        }
-
-        $res = new Res_Cleanup($open_close, ['open', 'close']);
-        $obj = $res->sing_cleanup();
-
-        $this->response['daily_open_close'] = $obj;
-    }
-
-
     public function main(Request $request){
 
         $this->ticker_simbol = strtoupper(trim($request->input('website')));
@@ -58,6 +36,14 @@ class DashboardController extends Controller
 
         $this->stck_details();
         $this->response['news'] = $data;
+
+        $opn = new OpenClose();
+        $opn->getTckr($this->ticker_simbol);
+        $response = $opn->getPrices();
+
+        if($response['success']){
+            $this->response['open'] = $response['openP'];
+        }
 
         return view('news', $this->response);
     }
