@@ -28,7 +28,7 @@ class DashboardController extends Controller
         $this->rest = new Rest('0vuALpjDqJ_XmYXC8mU_pw92V9D879OZ');
 
         $ticker = trim(strtoupper($this->ticker_simbol));
-        $tdate = date("Y-m-d", strtotime("-1 day"));
+        $tdate = date("Y-m-d");
 
         try {
             $open_close = $this->rest->stocks->dailyOpenClose->get($ticker, $tdate);
@@ -56,28 +56,20 @@ class DashboardController extends Controller
         $res = new Res_Cleanup($arr);
         $data = $res->cleanup_res();
 
-        $this->details();
+        $this->stck_details();
         $this->response['news'] = $data;
 
         return view('news', $this->response);
     }
 
-    public function details(){
+    public function stck_details(){
         $details = new TickerDetails($this->ticker_simbol);
         $details->buildParams();
         $det = $details->getDetails();
 
-        $this->response['ticker_simbol'] = $det['symbol'];
-        $this->response['ticker_ceo'] = $det['ceo'];
-        $this->response['ticker_industry'] = $det['industry'];
-        $this->response['list_date'] = $det['listdate'];
-        $this->response['ticker_exchange'] = $det['exchange'];
-        $this->response['ticker_name'] = $det['name'];
-        $this->response['ticker_mkcap'] = $det['marketcap'];
-        $this->response['ticker_employees'] = $det['employees'];
-        $this->response['ticker_country'] = $det['hq_country'];
-        $this->response['ticker_state'] = $det['hq_state'];
-        $this->response['ticker_url'] = $det['url'];
+        foreach($det as $key => $val){
+            $this->response[$key] = $val;
+        }
     }
 
 }

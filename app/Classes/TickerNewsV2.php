@@ -33,7 +33,6 @@ class TickerNewsV2 {
     public function getNews(){
 
       $client = new \GuzzleHttp\Client();
-      // echo 'route ' . $this->route . PHP_EOL;
 
       try {
 
