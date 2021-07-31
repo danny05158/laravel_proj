@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-require __DIR__ . '/../../../vendor/autoload.php';
 use App\Classes\Res_Cleanup;
 use App\Classes\TickerNewsV2;
 use App\Classes\TickerDetails;
 use App\Classes\OpenClose;
 
-class DashboardController extends Controller
+class DashboardController
 {
 
     public function __construct (){

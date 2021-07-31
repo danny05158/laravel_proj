@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Classes;
-use App\Classes\TickerNewsV2;
 
 class TickerDetails extends TickerNewsV2 {
 
