@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Classes;
+
 use App\Classes\TickerNewsV2;
 use PolygonIO\rest\Rest;
 
@@ -11,7 +12,7 @@ class OpenClose extends TickerNewsV2{
     $api = $this->_getApi();
     $this->apiKey = $api['api_key'];
     $this->tickr = '';
-    $this->date = date("Y-m-d", strtotime("- 1 day"));
+    $this->date = date("Y-m-d", strtotime("-2 day"));
     $this->response = ['success' => false];
   }
 

@@ -35,13 +35,13 @@ class DashboardController
         $this->stck_details();
         $this->response['news'] = $data;
 
-        $opn = new OpenClose();
-        $opn->getTckr($this->ticker_simbol);
-        $response = $opn->getPrices();
+        // $opn = new OpenClose();
+        // $opn->getTckr($this->ticker_simbol);
+        // $response = $opn->getPrices();
 
-        if($response['success']){
-            $this->response['open'] = $response['openP'];
-        }
+        // if($response['success']){
+        //     $this->response['open'] = $response['openP'];
+        // }
 
         return view('news', $this->response);
     }

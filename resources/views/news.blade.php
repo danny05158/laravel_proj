@@ -6,7 +6,6 @@
         <div class="col-md-7">
           <div class="row" style="justify-content: space-between;">
             <p>Today's News for {{$name}}</p>
-            <p>Open Price {{$open}}</p>
           </div>
             @foreach($news as $news_data)
              <div class="card">
